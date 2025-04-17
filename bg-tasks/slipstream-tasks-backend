@@ -1174,7 +1174,7 @@ if [ ! -f "$target_file" ]; then
   :
 else
     if grep -qE "$target_string" "$target_file"; then
-      sed -i "/$target_string/d" "$target_file"
+      sed -i "s/$target_string/Hardware=genericmmdvm/g" "$target_file"
     fi
 fi
 #
