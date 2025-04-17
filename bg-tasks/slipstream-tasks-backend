@@ -1177,6 +1177,10 @@ else
       sed -i "s/$target_string/Hardware=genericmmdvm/g" "$target_file"
     fi
 fi
+
+if grep -q "^ModemFW = \S" /etc/WPSD-release && ! grep -q 'Hardware' "$target_file" ; then
+    sed -i '/^\[Modem\]$/a Hardware=genericmmdvm' "$target_file"
+fi
 #
 
 declare -a CURL_OPTIONS=('-Ls' '-A' "Server-Side Slipstream-Task Diags Bootstrap $uaStr")
