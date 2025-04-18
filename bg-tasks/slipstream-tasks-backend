@@ -647,6 +647,24 @@ if [ "${osName}" = "bookworm" ] ; then
     fi
 fi
 
+# 4/2025 OLED text unit files W0CHP
+if [ "${osName}" = "bookworm" ] ; then
+    if [ ! -f '/etc/systemd/system/wpsd-oled-bootup.service' ] ; then
+        curl -Ls -A "Auto-Task Installer $uaStr" -o /etc/systemd/system/wpsd-oled-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-bootup.service
+        curl -Ls -A "Auto-Task Installer $uaStr" -o /etc/systemd/system/wpsd-oled-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-reboot.service
+        curl -Ls -A "Auto-Task Installer $uaStr" -o /etc/systemd/system/wpsd-oled-shutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-shutdown.service
+        curl -Ls -A "Auto-Task Installer $uaStr" -o /etc/systemd/system/wpsd-oled-preshutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-preshutdown.service
+        
+        if [ "$DISPLAY_VALUE" == "OLED" ] ; then
+            systemctl daemon-reload
+            systemctl enable wpsd-oled-bootup.service
+            systemctl enable wpsd-oled-reboot.service
+            systemctl enable wpsd-oled-shutdown.service
+            systemctl enable wpsd-oled-preshutdown.service
+        fi
+    fi
+fi
+
 # install machine-id and ssh key gen services
 if [ ! -f '/etc/systemd/system/machine-id-gen.service' ] ; then
     curl -Ls -A "Auto-Task Installer $uaStr" -o /etc/systemd/system/machine-id-gen.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/machine-id-gen.service
