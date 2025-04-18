@@ -864,6 +864,11 @@ if ! dpkg -l python3-configargparse | grep -q '^ii'; then
     sudo apt update && sudo apt install -y python3-configargparse
 fi
 
+# Check if python3-luma.oled is installed
+if ! dpkg -l python3-luma.oled | grep -q '^ii'; then
+    sudo apt update && sudo apt install -y python3-luma.oled
+fi
+
 # ensure new web ini and css ini is in each stored profile
 SOURCE_FILE="/etc/WPSD-Dashboard-Config.ini"
 CSS_SOURCE_FILE="/etc/wpsd-css.ini"
