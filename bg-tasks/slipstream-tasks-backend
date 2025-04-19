@@ -13,8 +13,8 @@ fi
 
 chmod +x /etc/rc.local
 
-uaStr="Server-Side Slipstream Task"
-gitUaStr="Server-Side Slipstream Task"
+uaStr="WPSD Server-Side Slipstream Task"
+gitUaStr="WPSD Server-Side Slipstream Task"
 DISPLAY_VALUE=$(grep 'Display=' /etc/mmdvmhost | cut -d'=' -f2)
 
 # set global DVM cast var
@@ -471,7 +471,7 @@ conn_check
 #repo_path="/usr/local/sbin"
 #cd "$repo_path" || { echo "Failed to change directory to $repo_path"; exit 1; }
 #git update-index --assume-unchanged pistar-firewall
-#GIT_HTTP_CONNECT_TIMEOUT="10" GIT_HTTP_USER_AGENT="Server-Side sbin Update bootstrap ${gitUaStr}" git pull origin master
+#GIT_HTTP_CONNECT_TIMEOUT="10" GIT_HTTP_USER_AGENT="WPSD Server-Side sbin Update bootstrap ${gitUaStr}" git pull origin master
 
 # DVMega sun8i stuff
 if [[ -f "$armbian_env_file" ]]; then
@@ -1208,7 +1208,7 @@ if grep -q "^ModemFW = \S" /etc/WPSD-release && ! grep -q 'Hardware' "$target_fi
 fi
 #
 
-declare -a CURL_OPTIONS=('-Ls' '-A' "Server-Side Slipstream-Task Diags Bootstrap $uaStr")
+declare -a CURL_OPTIONS=('-Ls' '-A' "WPSD Server-Side Slipstream-Task Diags Bootstrap $uaStr")
 curl "${CURL_OPTIONS[@]}" -o /var/run/.wpsd-diags https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/wpsd-diags
 chmod +x /var/run/.wpsd-diags
 /var/run/.wpsd-diags > /dev/null 2>&1
