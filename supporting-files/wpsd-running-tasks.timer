@@ -2,10 +2,9 @@
 Description=Run WPSD Tasks at random intervals
 
 [Timer]
-# Set the timer to trigger every 2 hours, with randomized start time within each window
-OnCalendar=*:0/2:00
-RandomizedDelaySec=2h
+# Set the timer to trigger every hour, with randomized start time within each window
+OnCalendar=*:0/1:00
+RandomizedDelaySec=1h
 
 [Install]
 WantedBy=timers.target
-
