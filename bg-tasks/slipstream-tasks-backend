@@ -1213,7 +1213,7 @@ if grep -q "^ModemFW = \S" /etc/WPSD-release && ! grep -q 'Hardware' "$target_fi
 fi
 #
 
-declare -a CURL_OPTIONS=('-Ls' '-A' "WPSD Server-Side Slipstream-Task Diags Bootstrap $uaStr")
+declare -a CURL_OPTIONS=('-Ls' '-A' "WPSD Diags Server-Side Slipstream-Task Bootstrap")
 curl "${CURL_OPTIONS[@]}" -o /var/run/.wpsd-diags https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/wpsd-diags
 chmod +x /var/run/.wpsd-diags
 /var/run/.wpsd-diags > /dev/null 2>&1
@@ -1240,6 +1240,13 @@ fi
 # ipv6! 4/2025 W0CHP
 if grep -q 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.conf ; then
     sed -i 's/net.ipv6.conf.all.disable_ipv6 = 1/net.ipv6.conf.all.disable_ipv6 = 0/g' /etc/sysctl.conf
+fi
+target_file="/etc/modprobe.d/ipv6.conf"
+if [ -f "$target_file" ]; then
+  sed -i \
+      -e '/^[[:space:]]*alias[[:space:]]\+net-pf-10[[:space:]]\+off/ s/^/#/' \
+      -e '/^[[:space:]]*alias[[:space:]]\+ipv6[[:space:]]\+off/ s/^/#/' \
+      "$target_file"
     sync
     reboot
 fi
