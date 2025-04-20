@@ -1237,5 +1237,12 @@ if [ -d '/etc/issue.d' ] ; then
     rm -rf /etc/issue.d/*
 fi
 
+# ipv6! 4/2025 W0CHP
+if grep -q 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.conf ; then
+    sed -i 's/net.ipv6.conf.all.disable_ipv6 = 1/net.ipv6.conf.all.disable_ipv6 = 0/g' /etc/sysctl.conf
+    sync
+    reboot
+fi
+
 exit 0
 
