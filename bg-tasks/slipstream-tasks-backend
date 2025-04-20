@@ -1238,17 +1238,15 @@ if [ -d '/etc/issue.d' ] ; then
 fi
 
 # ipv6! 4/2025 W0CHP
-if grep -q 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.conf ; then
-    sed -i 's/net.ipv6.conf.all.disable_ipv6 = 1/net.ipv6.conf.all.disable_ipv6 = 0/g' /etc/sysctl.conf
-fi
-target_file="/etc/modprobe.d/ipv6.conf"
-if [ -f "$target_file" ]; then
-  sed -i \
-      -e '/^[[:space:]]*alias[[:space:]]\+net-pf-10[[:space:]]\+off/ s/^/#/' \
-      -e '/^[[:space:]]*alias[[:space:]]\+ipv6[[:space:]]\+off/ s/^/#/' \
-      "$target_file"
-    sync
-    reboot
+if [ "${OS_VER}" -lt "12" ]; then
+    if grep -q 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.conf ; then
+	sed -i 's/net.ipv6.conf.all.disable_ipv6 = 1/net.ipv6.conf.all.disable_ipv6 = 0/g' /etc/sysctl.conf
+    fi
+    target_file="/etc/modprobe.d/ipv6.conf"
+    if [ -f "$target_file" ]; then
+	rm -f "$target_file"
+	reboot
+    fi
 fi
 
 exit 0
