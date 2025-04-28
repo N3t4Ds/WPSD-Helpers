@@ -877,6 +877,11 @@ if ! dpkg -l python3-serial | grep -q '^ii'; then
     sudo apt update && sudo apt install -y python3-serial
 fi
 
+# Check if py psutil is installed
+if ! dpkg -l python3-psutil | grep -q '^ii'; then
+    sudo apt update && sudo apt install -y python3-psutil
+fi
+
 # Check if py configparse is installed
 if ! dpkg -l python3-configargparse | grep -q '^ii'; then
     sudo apt update && sudo apt install -y python3-configargparse
