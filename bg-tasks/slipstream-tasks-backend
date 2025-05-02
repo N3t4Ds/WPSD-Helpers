@@ -1254,5 +1254,10 @@ if [ "${OS_VER}" -lt "12" ]; then
     fi
 fi
 
+# boot fix for boookworm - 5/2025 W0CHP
+if [ "${OS_VER}" -lt "12" ]; then
+    sudo sh -c "grep -qE ' quiet\\b' /boot/firmware/cmdline.txt && grep -qE ' splash\\b' /boot/firmware/cmdline.txt && grep -qE ' plymouth\\.ignore-serial-consoles\\b' /boot/firmware/cmdline.txt && sed -i.bak -E 's/ +quiet\\b//; s/ +splash\\b//; s/ +plymouth\\.ignore-serial-consoles\\b//' /boot/firmware/cmdline.txt"
+fi
+
 exit 0
 
