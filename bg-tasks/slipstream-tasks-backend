@@ -445,7 +445,7 @@ fi
 
 # Update /etc/issue - 5/2025 W0CHP
 #
-if ! grep -q 'WiFi Access Point' /etc/issue ; then
+if ! grep -q 'Chip Cuccio' /etc/issue ; then
     declare -a CURL_OPTIONS=('-Ls' '-A' "/etc/issue updater (slipstream) $uaStr")
     curl "${CURL_OPTIONS[@]}" -o /etc/issue https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/issue
 fi
