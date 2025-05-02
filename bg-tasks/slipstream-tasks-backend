@@ -443,9 +443,9 @@ if grep -q 'publish-aaaa-on-ipv4=yes' /etc/avahi/avahi-daemon.conf  ; then
 fi
 #
 
-# Update /etc/issue - 9/2023 & 1/5/2024 W0CHP
+# Update /etc/issue - 5/2025 W0CHP
 #
-if ! grep -q 'This is\.\.\.' /etc/issue ; then
+if ! grep -q 'WiFi Access Point' /etc/issue ; then
     declare -a CURL_OPTIONS=('-Ls' '-A' "/etc/issue updater (slipstream) $uaStr")
     curl "${CURL_OPTIONS[@]}" -o /etc/issue https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/issue
 fi
