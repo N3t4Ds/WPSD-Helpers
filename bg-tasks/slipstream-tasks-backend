@@ -1269,5 +1269,7 @@ if [ "${OS_VER}" -ge "12" ]; then
     fi
 fi
 
+rm -rf /usr/local/etc/*txt-E
+
 exit 0
 
