@@ -1257,10 +1257,9 @@ fi
 # misc bw boot fixes - 5/2025 W0CHP
 if [ "${OS_VER}" -ge "12" ]; then
     if grep -q 'quiet' /boot/firmware/cmdline.txt ; then
-        sed -i.bak 's/quiet //;s/splash //' /boot/firmware/cmdline.txt
+        sed -i 's/quiet //;s/splash //' /boot/firmware/cmdline.txt
 
         declare -a CURL_OPTIONS=('-Ls' '-A' "config.txt updater (slipstream) $uaStr")
-        mv /boot/firmware/config.txt /boot/firmware/config.txt.bak
         curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt
 
         update-initramfs -u
