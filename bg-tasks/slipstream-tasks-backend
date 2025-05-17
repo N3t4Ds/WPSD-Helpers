@@ -1279,12 +1279,16 @@ if ! grep -q "^Reconnect=" /etc/ysfgateway; then
       {
         print $0
         if (in_network_section && $0 ~ /^# *Startup=|^Startup=/) {
-            print "Reconnect=1"
+            print "Reconnect=0"
         }
       }
     ' /etc/ysfgateway > "$TMP_FILE"
     mv "$TMP_FILE" /etc/ysfgateway
     chmod 644 /etc/ysfgateway
+fi
+if grep -q "^Reconnect=1" /etc/ysfgateway; then
+    sed -i 's/Reconnect=1/Reconnect=0/g' /etc/ysfgateway
+    systemctl restart ysfgateway.service
 fi
 
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
