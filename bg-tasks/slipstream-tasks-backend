@@ -1290,6 +1290,10 @@ if grep -q "^Reconnect=" /etc/ysfgateway; then
     sed -i '/Reconnect/d' /etc/ysfgateway
     systemctl restart ysfgateway.service
 fi
+if grep -q "^ReloadTime=60" /etc/ysfgateway; then
+    sed -i 's/ReloadTime=60/ReloadTime=1440/g' /etc/ysfgateway
+    systemctl restart ysfgateway.service
+fi
 
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 exit 0
