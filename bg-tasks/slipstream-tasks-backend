@@ -1294,6 +1294,11 @@ if grep -q "^ReloadTime=60" /etc/ysfgateway; then
     systemctl restart ysfgateway.service
 fi
 
+# remove smb and deps..how it got snuck in is a mystery  - 5/25 
+if dpkg -l | grep -q "^ii.*samba" ; then
+    sudo apt remove -y samba* && sudo apt autoremove -y
+fi
+
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 exit 0
 
