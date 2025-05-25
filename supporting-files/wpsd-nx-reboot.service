@@ -1,8 +1,7 @@
-# 20250525
+# 20250525_1
 [Unit]
 Description=Run WPSD NX Text Update on Reboot
 DefaultDependencies=no
-Requires=nextiondriver.service
 After=nextiondriver.service
 Before=reboot.target
 

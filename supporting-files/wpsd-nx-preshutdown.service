@@ -1,8 +1,7 @@
-# 20250525
+# 20250525_1
 [Unit]
 Description=Run WPSD NX Text Update on Pre-Shutdown
 DefaultDependencies=no
-Requires=nextiondriver.service
 After=nextiondriver.service
 Before=poweroff.target
 Conflicts=multi-user.target

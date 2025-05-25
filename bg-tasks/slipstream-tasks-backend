@@ -595,7 +595,7 @@ if [ "${OS_VER}" -ge "12" ]; then
     fi
 fi
 if [ "${OS_VER}" -ge "12" ]; then
-    if ! grep -q "20250525" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
+    if ! grep -q "20250525_1" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-bootup.service
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-reboot.service
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-shutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-shutdown.service
