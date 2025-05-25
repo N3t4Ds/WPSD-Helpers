@@ -1186,16 +1186,16 @@ fi
 rm -f /etc/update-motd.d/*
 
 # fix bookworm + pi0 w2 wifi issue (RPi BRCM firmware is fuuuucked, so we reduce GPU cycles...wtf?)
-if [ "${OS_VER}" -ge "12" ] &&  [[ $(/usr/local/sbin/.wpsd-platform-detect) == *"Pi Zero 2 W"* ]] ; then
-    if ! grep -q 'gpu_freq=100' /boot/firmware/config.txt ; then
-	echo "gpu_freq=100" >> /boot/firmware/config.txt
-	reboot
-    fi
-    if [ ! -f '/etc/modprobe.d/brcmfmac.conf' ]; then
-	echo "options brcmfmac roamoff=1 feature_disable=0x82000" > /etc/modprobe.d/brcmfmac.conf
-	reboot
-    fi
-fi
+#if [ "${OS_VER}" -ge "12" ] &&  [[ $(/usr/local/sbin/.wpsd-platform-detect) == *"Pi Zero 2 W"* ]] ; then
+#    if ! grep -q 'gpu_freq=100' /boot/firmware/config.txt ; then
+#	echo "gpu_freq=100" >> /boot/firmware/config.txt
+#	reboot
+#    fi
+#    if [ ! -f '/etc/modprobe.d/brcmfmac.conf' ]; then
+#	echo "options brcmfmac roamoff=1 feature_disable=0x82000" > /etc/modprobe.d/brcmfmac.conf
+#	reboot
+#    fi
+#fi
 
 #
 # Close that MF'in "fake" modem type coffin from the config page selection - will force user to choose the
@@ -1255,19 +1255,19 @@ if [ "${OS_VER}" -lt "12" ]; then
 fi
 
 # misc bw boot fixes - 5/2025 W0CHP
-if [ "${OS_VER}" -ge "12" ]; then
-    if grep -q 'quiet' /boot/firmware/cmdline.txt ; then
-        sed -i 's/quiet //;s/splash //' /boot/firmware/cmdline.txt
+#if [ "${OS_VER}" -ge "12" ]; then
+#    if grep -q 'quiet' /boot/firmware/cmdline.txt ; then
+#        sed -i 's/quiet //;s/splash //' /boot/firmware/cmdline.txt
 
-        declare -a CURL_OPTIONS=('-Ls' '-A' "config.txt updater (slipstream) $uaStr")
-        curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt
+#        declare -a CURL_OPTIONS=('-Ls' '-A' "config.txt updater (slipstream) $uaStr")
+#        curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt
 
-        update-initramfs -u
+#        update-initramfs -u
 
-        apt-get -y remove --purge plymouth*
-        apt-get -y autoremove
-    fi
-fi
+#        apt-get -y remove --purge plymouth*
+#        apt-get -y autoremove
+#    fi
+#fi
 
 # new recoonect option in YSFgw - 5/2025 W0CHP
 if ! grep -q "^Reconnect=" /etc/ysfgateway; then
