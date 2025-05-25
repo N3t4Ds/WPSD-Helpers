@@ -515,7 +515,7 @@ if grep -q 'Display=0' /etc/mmdvmhost ; then
 fi
 
 # install new nx driver shutdown service and nx text services
-if [ "${osName}" = "bookworm" ] ; then 
+if [ "${OS_VER}" -ge "12" ]; then
     if [ ! -f '/etc/systemd/system/nextiondriver-shutdown.timer' ] || ! grep -q 'Bookworm' /etc/systemd/system/nextiondriver-shutdown.service || grep -qi 'not found' /etc/systemd/system/nextiondriver-shutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/nextiondriver-shutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/nextiondriver-shutdown.service-bookworm
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/nextiondriver-shutdown.timer https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/nextiondriver-shutdown.timer
@@ -556,7 +556,7 @@ else
 	systemctl restart mmdvmhost.service
     fi
 fi
-if [ "${osName}" = "bookworm" ] ; then 
+if [ "${OS_VER}" -ge "12" ]; then
     if [ ! -f '/etc/systemd/system/wpsd-nx-bootup.service' ] ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-bootup.service
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-reboot.service
@@ -570,7 +570,7 @@ if [ "${osName}" = "bookworm" ] ; then
 	
     fi
 fi
-if [ "${osName}" = "bookworm" ] ; then 
+if [ "${OS_VER}" -ge "12" ]; then
     if [ -f '/etc/systemd/system/wpsd-nx-preshutdown.service' ] && ! grep -q "ExecStartPre" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-reboot.service
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-preshutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-preshutdown.service
@@ -581,7 +581,7 @@ if [ "${osName}" = "bookworm" ] ; then
 	systemctl daemon-reload
     fi
 fi
-if [ "${osName}" = "bookworm" ] ; then 
+if [ "${OS_VER}" -ge "12" ]; then
     if [ -f '/etc/systemd/system/wpsd-nx-preshutdown.service' ] && grep -q "ttyAMA0" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-bootup.service
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-reboot.service
@@ -594,7 +594,7 @@ if [ "${osName}" = "bookworm" ] ; then
 	systemctl enable wpsd-nx-preshutdown.service
     fi
 fi
-if [ "${osName}" = "bookworm" ] ; then
+if [ "${OS_VER}" -ge "12" ]; then
     if [ -f '/etc/systemd/system/wpsd-nx-preshutdown.service' ] && grep -q "WPSD Shutting Down" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-preshutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-preshutdown.service
 	systemctl daemon-reload
@@ -606,7 +606,7 @@ if [ "${osName}" = "bookworm" ] ; then
 fi
 
 # 4/2025 OLED text unit files W0CHP
-if [ "${osName}" = "bookworm" ] ; then
+if [ "${OS_VER}" -ge "12" ]; then
     if [ ! -f '/etc/systemd/system/wpsd-oled-bootup.service' ] ; then
         curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-oled-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-bootup.service
         curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-oled-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-oled-reboot.service
@@ -646,6 +646,25 @@ if [ -f "/etc/systemd/system/wpsd-log-cleanup.service" ]; then
 	systemctl daemon-reload
 	systemctl restart wpsd-log-cleanup.timer
     fi
+fi
+
+# enable all display message services  - 5/25/25
+if [ "${OS_VER}" -ge "12" ]; then
+    display_services=(
+      "wpsd-oled-bootup.service"
+      "wpsd-oled-reboot.service"
+      "wpsd-oled-shutdown.service"
+      "wpsd-oled-preshutdown.service"
+      "wpsd-nx-bootup.service"
+      "wpsd-nx-reboot.service"
+      "wpsd-nx-shutdown.service"
+      "wpsd-nx-preshutdown.service"
+    )
+    for service in "${display_services[@]}"; do
+	if ! systemctl is-enabled --quiet "$service"; then
+	    sudo systemctl enable "$service"
+	fi
+    done
 fi
 
 # dash prefs migrator
@@ -1038,7 +1057,7 @@ fi
 if [ -f '/usr/share/nginx/on' ];then
     rm -rf /usr/share/nginx/on
 fi
-if [ "${osName}" = "bookworm" ]; then
+if [ "${OS_VER}" -ge "12" ]; then
     if grep -q 'log_errors = On' /etc/php/8.2/fpm/php.ini ; then
 	sed -i 's/log_errors = On/log_errors = Off/g' /etc/php/8.2/fpm/php.ini
 	systemctl restart php8.2-fpm.service
