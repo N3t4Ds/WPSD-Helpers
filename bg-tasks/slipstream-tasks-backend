@@ -595,6 +595,19 @@ if [ "${OS_VER}" -ge "12" ]; then
     fi
 fi
 if [ "${OS_VER}" -ge "12" ]; then
+    if ! grep -q "20250525" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
+	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-bootup.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-bootup.service
+	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-reboot.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-reboot.service
+	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-shutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-shutdown.service
+	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-preshutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-preshutdown.service
+	systemctl daemon-reload
+	systemctl enable wpsd-nx-bootup.service
+	systemctl enable wpsd-nx-reboot.service
+	systemctl enable wpsd-nx-shutdown.service
+	systemctl enable wpsd-nx-preshutdown.service
+    fi
+fi
+if [ "${OS_VER}" -ge "12" ]; then
     if [ -f '/etc/systemd/system/wpsd-nx-preshutdown.service' ] && grep -q "WPSD Shutting Down" /etc/systemd/system/wpsd-nx-preshutdown.service ; then
 	curl -Ls -A "WPSD Slipstream Server-Side Auto-Task Installer" -o /etc/systemd/system/wpsd-nx-preshutdown.service https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/wpsd-nx-preshutdown.service
 	systemctl daemon-reload
