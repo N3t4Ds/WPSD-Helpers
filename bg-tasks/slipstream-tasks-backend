@@ -1253,6 +1253,9 @@ if [ "${OS_VER}" -ge "12" ]; then
             apt-get -y autoremove
 	fi
     fi
+    if ! dpkg -l | grep -q "^ii.*linux-image-rpi-v7"; then
+	apt-get install -y linux-image-rpi-v7
+    fi
 fi
 
 # new recoonect option in YSFgw - 5/2025 W0CHP
