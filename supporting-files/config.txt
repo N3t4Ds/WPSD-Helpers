@@ -1,76 +1,63 @@
-# For more options and information see
-# http://rptl.io/configtxt
-# Some settings may impact device functionality. See link above for details
-
-# Uncomment some or all of these to enable the optional hardware interfaces
-dtparam=i2c_arm=on
-#dtparam=i2s=on
-#dtparam=spi=on
-
-# Enable audio (loads snd_bcm2835)
-dtparam=audio=on
-
-# Additional overlays and parameters are documented
-# /boot/firmware/overlays/README
+# WPSD
 
 # Automatically load overlays for detected cameras
-camera_auto_detect=1
+camera_auto_detect=0
 
 # Automatically load overlays for detected DSI displays
-display_auto_detect=1
+display_auto_detect=0
 
 # Automatically load initramfs files, if found
 auto_initramfs=1
 
-# Enable DRM VC4 V3D driver
-dtoverlay=vc4-kms-v3d
-max_framebuffers=2
+# Free up some RAM
+gpu_mem=16
 
-# Don't have the firmware create an initial video= setting in cmdline.txt.
-# Use the kernel's default instead.
-#disable_fw_kms_setup=1
+# D2RG UART over SPI
+dtoverlay=sc16is752-spi0-ce0
 
-# --- Force HDMI Mode (Example: 1080p @ 60Hz) ---
-hdmi_group=2      # Use DMT group (typically for computer monitors)
-hdmi_mode=82      # 1920x1080, 60Hz (DMT mode)
-hdmi_drive=2      # Use HDMI mode (includes audio)
-
-hdmi_force_hotplug=1
-
-# Disable compensation for displays with overscan
-disable_overscan=1
-
-# Run as fast as firmware / board allows
-arm_boost=1
-
-[cm4]
-# Enable host mode on the 2711 built-in XHCI USB controller.
-# This line should be removed if the legacy DWC2 controller is required
-# (e.g. for USB device mode) or if USB support is not required.
-otg_mode=1
-
-[all]
-dtoverlay=disable-bt
-
-dtparam=uart0=on
+# Model Specifics
+[pi1]
+kernel=kernel.img
 gpu_freq=100
 
-# Model-specific kernels. Thank you Andy, MW0MWZ for this idea/implemtation; I love working *with* you... ~W0CHP
 [pi2]
-kernel=kernel.img
+kernel=kernel7.img
+gpu_freq=100
 
 [pi3]
 kernel=kernel8.img
+arm_freq=1000
+gpu_freq=100
 
 [pi3+]
 kernel=kernel8.img
+arm_freq=1200
+gpu_freq=100
 
 [pi02]
+cmdline=cmdline02w.txt
 kernel=kernel8.img
+arm_freq=900
+gpu_freq=100
 
 [pi4]
 kernel=kernel8.img
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
 
 [pi5]
 kernel=kernel8.img
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
 
+[all]
+hdmi_force_hotplug=1
+disable_overscan=1
+hdmi_group=1
+hdmi_mode=4
+dtparam=i2c_arm=on
+dtparam=spi=on
+dtoverlay=miniuart-bt
+dtparam=uart0=on
+dtparam=uart1=on
+temp_limit=75
