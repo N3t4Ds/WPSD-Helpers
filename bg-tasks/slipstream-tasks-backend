@@ -1254,6 +1254,7 @@ if [ "${OS_VER}" -ge "12" ]; then
 	fi
     fi
     if ! dpkg -l | grep -q "^ii.*linux-image-rpi-v7"; then
+	apt-get update
 	apt-get install -y linux-image-rpi-v7
     fi
 fi
