@@ -1200,8 +1200,9 @@ rm -f /etc/update-motd.d/*
 # pi02 boot config for wifi stability - 5/25/25 W0CHP
 if [ "${OS_VER}" -ge "12" ] &&  [[ $(/usr/local/sbin/.wpsd-platform-detect) == *"Pi Zero 2 W"* ]] ; then
     if [ ! -f '/boot/firmware/cmdline02w.txt' ] ; then
-    declare -a CURL_OPTIONS=('-Ls' '-A' "bootup cmdline updater (slipstream) $uaStr")
-    curl "${CURL_OPTIONS[@]}" -o /boot/firmware/cmdline02w.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/cmdline02w.txt
+        declare -a CURL_OPTIONS=('-Ls' '-A' "bootup cmdline updater (slipstream) $uaStr")
+        curl "${CURL_OPTIONS[@]}" -o /boot/firmware/cmdline02w.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/cmdline02w.txt
+    fi
 fi
 
 #
@@ -1271,6 +1272,7 @@ if [ "${OS_VER}" -ge "12" ]; then
             apt-get -y autoremove
         fi
     fi
+
     if ! grep -q "WPSD" /boot/firmware/config.txt ; then
 	declare -a CURL_OPTIONS=('-Ls' '-A' "bootup config updater (slipstream) $uaStr")
 	if curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt; then
