@@ -476,7 +476,7 @@ conn_check
 # DVMega sun8i stuff
 if [[ -f "$armbian_env_file" ]]; then
     # ensure wiringpi is installed
-    if [ ! -f '/usr/local/bin/gpio' ] || gpio -v | grep "gpio version: 3.1" ; then
+    if [ ! -f '/usr/local/bin/gpio' ] || gpio -v | grep -q "gpio version: 3.1" ; then
         :
     else
         cd /root
