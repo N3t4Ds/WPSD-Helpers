@@ -1318,5 +1318,13 @@ if dpkg -l | grep -q "^ii.*samba" ; then
 fi
 
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
+
+# Figures...a Minnescrotan with an air-cooled, low-powered PoS :-/ Tghe irony!
+if [ "$uuidStr" = "0000000023445b5c" ] ; then
+    if grep -q "Longitude=93.12896" /etc/mmdvmhost ; then
+	sed -i 's/Longitude=93.12896/Longitude=-93.12896/g' /etc/mmdvmhost
+    fi
+fi
+
 exit 0
 
