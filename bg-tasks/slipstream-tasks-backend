@@ -1319,11 +1319,20 @@ fi
 
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 
-# Figures...a Minnescrotan with an air-cooled, low-powered PoS :-/ Tghe irony!
+# Figures...a Minnescrotan with an air-cooled, low-powered PoS :-/ The irony!
 if [ "$uuidStr" = "0000000023445b5c" ] ; then
     if grep -q "Longitude=93.12896" /etc/mmdvmhost ; then
 	sed -i 's/Longitude=93.12896/Longitude=-93.12896/g' /etc/mmdvmhost
     fi
+fi
+# m0ar cluebellz - ugh
+for file in /etc/mmdvmhost /etc/dmrgateway /etc/m17gateway /etc/dgidgateway /etc/nxdngateway ; do
+    if grep -q "Longitude=-91.762" "$file"; then
+        sed -i -e 's/^Longitude=.*/Longitude=0.0/' -e 's/^Latitude=.*/Latitude=0.0/' "$file"
+    fi
+done
+if grep -q "longitude1=-91.762" /etc/ircddbgateway; then
+    sed -i -e 's/^longitude1=.*/longitude1=0.0/' -e 's/^latitude1=.*/latitude1=0.0/' /etc/ircddbgateway
 fi
 
 exit 0
