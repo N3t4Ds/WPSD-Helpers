@@ -482,14 +482,14 @@ if [[ -f "$armbian_env_file" ]]; then
 	else
 	    cd /root
  	    git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
-	    cd WiringPi
+	    cd WiringNPi
 	    bash ./build
 	    cd .. && rm -rf WiringPi
 	fi
     else
 	cd /root
 	git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
-	cd WiringPi
+	cd WiringNPi
 	bash ./build
 	cd .. && rm -rf WiringPi
     fi
