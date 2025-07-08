@@ -475,20 +475,20 @@ conn_check
 
 # DVMega sun8i stuff
 if [[ -f "$armbian_env_file" ]]; then
-    # ensure wiringpi is installed
+    # ensure our own patched wiringpi is installed
     if [ -f '/usr/local/bin/gpio' ]; then
-	if gpio -v 2>/dev/null | grep -q "gpio version: 3.1" ; then
+	if gpio -v 2>/dev/null | grep -q "_WPSD" ; then
 	    :
 	else
 	    cd /root
- 	    git clone https://github.com/WiringPi/WiringPi.git
+ 	    git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
 	    cd WiringPi
 	    bash ./build
 	    cd .. && rm -rf WiringPi
 	fi
     else
 	cd /root
-	git clone https://github.com/WiringPi/WiringPi.git
+	git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
 	cd WiringPi
 	bash ./build
 	cd .. && rm -rf WiringPi
