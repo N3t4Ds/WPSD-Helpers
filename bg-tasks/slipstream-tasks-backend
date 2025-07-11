@@ -95,7 +95,6 @@ files=(
   /etc/p25gateway
   /etc/nxdngateway
   /etc/ircddbgateway
-  /etc/m17gateway
   /etc/mmdvmhost
   /etc/nxdn2dmr
   /etc/ysf2dmr
@@ -319,13 +318,6 @@ if [ -f "$armbian_env_file" ] ; then
     fi
 fi
 
-# retro. m17gateway ini malformed callsign fix:
-file_path="/etc/m17gateway"
-invalid_lines=$(awk -F'=' '/Callsign=.*-($| )|Callsign=.* / {print NR, $0}' "$file_path")
-if [ -n "$invalid_lines" ]; then
-    sed -i 's/\(Callsign=.*\)-$/\1/; s/\(Callsign=.*\)- /\1/; s/\(Callsign=.*\) $/\1/' "$file_path"
-fi
-
 # cleanup DMRgw X-mode decrips...
 if grep -q '_Cross-over' /etc/dmrgateway ; then
     sed -i 's/_Cross-over/_Cross-Mode/g' /etc/dmrgateway
@@ -450,19 +442,6 @@ if ! grep -q 'Chip Cuccio' /etc/issue ; then
     curl "${CURL_OPTIONS[@]}" -o /etc/issue https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/issue
 fi
 #
-
-# new m17 mode for pistar-remote - 1/2025
-if ! grep -q 'M17 destination fields' /etc/pistar-remote ; then
-    echo -e "
-[m17]
-# M17 destination fields
-svckill=SVCKILL
-svcrestart=SVCRSTRT
-reboot=REBOOTPI
-#shutdown=SHUTDOWN
-" >> /etc/pistar-remote
-    systemctl restart pistar-remote.service
-fi
 
 # grab and cache latest WPSD hashes
 conn_check
@@ -1328,13 +1307,18 @@ rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 #    fi
 #fi
 # m0ar cluebellz - ugh
-for file in /etc/mmdvmhost /etc/dmrgateway /etc/m17gateway /etc/dgidgateway /etc/nxdngateway ; do
+for file in /etc/mmdvmhost /etc/dmrgateway /etc/dgidgateway /etc/nxdngateway ; do
     if grep -q "Longitude=-91.76" "$file" && grep -q "Latitude=44.12" "$file" ; then
         sed -i -e 's/^Longitude=.*/Longitude=0.0/' -e 's/^Latitude=.*/Latitude=0.0/' "$file"
     fi
 done
 if grep -q "longitude1=-91.76" /etc/ircddbgateway && grep -q "latitude1=44.12" /etc/ircddbgateway; then
     sed -i -e 's/^longitude1=.*/longitude1=0/' -e 's/^latitude1=.*/latitude1=0/' /etc/ircddbgateway
+fi
+
+# cleanups:
+if grep -q '_M17' /etc/wpsd-upnp-rules ; then
+    sed -i '/_M17/d' /etc/wpsd-upnp-rules
 fi
 
 exit 0
