@@ -1316,9 +1316,17 @@ if grep -q "longitude1=-91.76" /etc/ircddbgateway && grep -q "latitude1=44.12" /
     sed -i -e 's/^longitude1=.*/longitude1=0/' -e 's/^latitude1=.*/latitude1=0/' /etc/ircddbgateway
 fi
 
-# cleanups:
+# m17 cleanups - 7/11/25
 if grep -q '_M17' /etc/wpsd-upnp-rules ; then
     sed -i '/_M17/d' /etc/wpsd-upnp-rules
+fi
+if [ ! -f '/usr/local/sbin/m17gateway.service' ] ; then
+    systemctl stop m17gateway.timer 2>/dev/null || true
+    systemctl stop m17gateway.service 2>/dev/null || true
+    systemctl disable m17gateway.timer 2>/dev/null || true
+    systemctl disable m17gateway.service 2>/dev/null || true
+    rm -fv /etc/systemd/system/m17gateway*
+    systemctl daemon-reload
 fi
 
 exit 0
