@@ -1335,6 +1335,10 @@ fi
 if [ -f '/etc/m17gateway' ] ; then
     rm -fv /etc/m17gateway
 fi
+if [ -f '/root/M17Hosts.txt' ] ; then
+    rm -fv /root/M17Hosts.txt
+fi
+
 
 exit 0
 
