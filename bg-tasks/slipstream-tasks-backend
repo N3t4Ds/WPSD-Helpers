@@ -1329,7 +1329,6 @@ if grep -q "M17 Network" "$CONFIG_FILE"; then
     for section in "${SECTIONS_TO_DELETE[@]}"; do
         sed -i -E "/^\\[$section\\]/,/^\\s*\\[/{/^\\[$section\\]/d;/^\\s*\\[/!d}" "$CONFIG_FILE"
     done
-    sed -i 's/M17TXLevel//g' "$CONFIG_FILE"
     systemctl restart mmdvmhost.service
 fi
 if [ -f '/etc/m17gateway' ] ; then
@@ -1338,7 +1337,8 @@ fi
 if [ -f '/root/M17Hosts.txt' ] ; then
     rm -fv /root/M17Hosts.txt
 fi
-
+sed -i '/M17TXLevel=/d' "$CONFIG_FILE"
+sed -i '/^=50$/d' "$CONFIG_FILE"
 
 exit 0
 
