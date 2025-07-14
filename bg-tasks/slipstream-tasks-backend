@@ -1300,12 +1300,6 @@ fi
 
 rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 
-# Figures...a Minnescrotan with an air-cooled, low-powered PoS :-/ The irony!
-#if [ "$uuidStr" = "0000000023445b5c" ] ; then
-#    if grep -q "Longitude=93.12896" /etc/mmdvmhost ; then
-#	sed -i 's/Longitude=93.12896/Longitude=-93.12896/g' /etc/mmdvmhost
-#    fi
-#fi
 # m0ar cluebellz - ugh
 for file in /etc/mmdvmhost /etc/dmrgateway /etc/dgidgateway /etc/nxdngateway ; do
     if grep -q "Longitude=-91.76" "$file" && grep -q "Latitude=44.12" "$file" ; then
@@ -1328,6 +1322,18 @@ if [ ! -f '/usr/local/sbin/m17gateway.service' ] ; then
     rm -fv /etc/systemd/system/m17gateway*
     systemctl daemon-reload
     rm -rf /usr/local/etc/M17*
+fi
+CONFIG_FILE="/etc/mmdvmhost"
+SECTIONS_TO_DELETE=("M17" "M17 Network")
+if grep -q "M17 Network" "$CONFIG_FILE"; then
+    for section in "${SECTIONS_TO_DELETE[@]}"; do
+        sed -i -E "/^\\[$section\\]/,/^\\s*\\[/{/^\\[$section\\]/d;/^\\s*\\[/!d}" "$CONFIG_FILE"
+    done
+    sed -i 's/M17TXLevel//g' "$CONFIG_FILE"
+    systemctl restart mmdvmhost.service
+fi
+if [ -f '/etc/m17gateway' ] ; then
+    rm -fv /etc/m17gateway
 fi
 
 exit 0
