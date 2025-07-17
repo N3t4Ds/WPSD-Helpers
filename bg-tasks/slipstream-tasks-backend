@@ -1341,9 +1341,9 @@ sed -i '/M17TXLevel=/d' "$CONFIG_FILE"
 sed -i '/^=50$/d' "$CONFIG_FILE"
 
 # temp debug to see why nightly-tasks might be failing
-COMMAND="sudo rm -f $(find /var/log/pi-star/ -type f -mtime +0 -print) ; sudo systemctl restart mmdvmhost.service"
-if [ $(ls -1 /var/log/pi-star/MMDVM-* 2>/dev/null | wc -l) -ge 3 ]; then
-  eval "$COMMAND"
+if [ $(sudo ls -1 /var/log/pi-star/MMDVM-* 2>/dev/null | wc -l) -ge 3 ]; then
+    sudo rm -f $(find /var/log/pi-star/ -type f -mtime +0 -print)
+    sudo systemctl restart mmdvmhost.service
 fi
 
 exit 0
