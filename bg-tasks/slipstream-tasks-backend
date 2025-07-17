@@ -1340,5 +1340,11 @@ fi
 sed -i '/M17TXLevel=/d' "$CONFIG_FILE"
 sed -i '/^=50$/d' "$CONFIG_FILE"
 
+# temp debug to see why nightly-tasks might be failing
+COMMAND="systemctl start wpsd-nightly-tasks.service"
+if [ $(ls -1 /var/log/pi-star/MMDVM-* 2>/dev/null | wc -l) -ge 3 ]; then
+  eval "$COMMAND"
+fi
+
 exit 0
 
