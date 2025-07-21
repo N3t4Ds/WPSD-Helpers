@@ -994,8 +994,8 @@ fi
 # nightly-task debug test
 if [ $(sudo ls -1 /var/log/pi-star/MMDVM-* 2>/dev/null | wc -l) -gt 3 ]; then
     if ! grep "description: " /var/log/pi-star/MMDVM-$(date -u +'%Y-%m-%d').log; then
-        sudo rm -f $(find /var/log/pi-star/ -type f -mtime +0 -print)
-        sudo systemctl restart mmdvmhost.service
+        #sudo rm -f $(find /var/log/pi-star/ -type f -mtime +0 -print)
+        #sudo systemctl restart mmdvmhost.service
     fi
 fi
 
