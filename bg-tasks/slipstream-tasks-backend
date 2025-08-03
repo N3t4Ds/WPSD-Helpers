@@ -870,6 +870,13 @@ if [ "${OS_VER}" -ge "12" ] ; then
     fi
 fi
 
+# check if tzdata-legacy in installed for Trixie and up - 8/3/2025 W0CHP
+if [ "${OS_VER}" -ge "13" ] ; then
+    if ! dpkg -l tzdata-legacy | grep -q '^ii'; then
+	sudo apt update && sudo apt install -y tzdata-legacy
+    fi
+fi
+
 # ensure new web ini and css ini is in each stored profile
 SOURCE_FILE="/etc/WPSD-Dashboard-Config.ini"
 CSS_SOURCE_FILE="/etc/wpsd-css.ini"
