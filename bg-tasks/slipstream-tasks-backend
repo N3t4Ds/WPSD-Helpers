@@ -1052,7 +1052,7 @@ if [ "${OS_VER}" -eq "12" ]; then
 	sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = 0/g' /etc/php/8.2/fpm/php.ini
 	systemctl restart php8.2-fpm.service
     fi
-else
+elif [ "${OS_VER}" -eq "11" ]; then
     if grep -q 'log_errors = On' /etc/php/7.4/fpm/php.ini ; then
 	sed -i 's/log_errors = On/log_errors = Off/g' /etc/php/7.4/fpm/php.ini
 	systemctl restart php7.4-fpm.service
