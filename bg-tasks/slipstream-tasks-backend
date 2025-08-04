@@ -285,7 +285,7 @@ if [ -f "$armbian_env_file" ] ; then
                 apt -y autoremove
                 apt -y clean
                 apt -y autoclean
-                reboot
+                #reboot
             fi
         fi
     fi
@@ -1225,7 +1225,7 @@ if [ "${OS_VER}" -lt "12" ]; then
     target_file="/etc/modprobe.d/ipv6.conf"
     if [ -f "$target_file" ]; then
 	rm -f "$target_file"
-	reboot
+	#reboot
     fi
 fi
 
