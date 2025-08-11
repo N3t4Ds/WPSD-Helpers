@@ -1326,5 +1326,15 @@ fi
 sed -i '/M17TXLevel=/d' "$CONFIG_FILE"
 sed -i '/^=50$/d' "$CONFIG_FILE"
 
+# install apt keys for deb 12+ - 8/11/2025 W0CHP:
+if [ "${OS_VER}" -ge "12" ]; then
+    PACKAGE="debian-archive-keyring"
+    if ! dpkg -s $PACKAGE >/dev/null 2>&1; then
+	sudo apt update
+	sudo apt install -y $PACKAGE
+	sudo apt update
+    fi
+fi
+
 exit 0
 
