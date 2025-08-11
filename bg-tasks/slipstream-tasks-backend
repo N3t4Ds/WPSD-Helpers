@@ -1333,6 +1333,7 @@ if [ "${OS_VER}" -ge "12" ]; then
 	sudo apt update
 	sudo apt install -y $PACKAGE
 	sudo apt update
+	sudo apt update
     fi
 fi
 
