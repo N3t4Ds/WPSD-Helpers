@@ -424,17 +424,6 @@ if [ -L "$libOLEDfull_path" ]; then
 fi
 #
 
-# avahi tweak
-#
-# 6/2024 W0CHP
-#
-if grep -q 'publish-aaaa-on-ipv4=yes' /etc/avahi/avahi-daemon.conf  ; then
-    declare -a CURL_OPTIONS=('-Ls' '-A' "Avahi conf Installer (slipstream) $uaStr")
-    curl "${CURL_OPTIONS[@]}" https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/avahi-daemon.conf -o /etc/avahi/avahi-daemon.conf
-    systemctl restart avahi-daemon.service
-fi
-#
-
 # Update /etc/issue - 5/2025 W0CHP
 #
 if ! grep -q 'Chip Cuccio' /etc/issue ; then
@@ -442,6 +431,16 @@ if ! grep -q 'Chip Cuccio' /etc/issue ; then
     curl "${CURL_OPTIONS[@]}" -o /etc/issue https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/issue
 fi
 #
+
+# Clean up defunct cron jobs - 8/2025 W0CHP
+if [ "${OS_VER}" -ge "12" ]; then
+    if [ -f /etc/cron.daily/wpsd-daily ] ; then
+	rm -f /etc/cron.daily/wpsd-daily
+    fi
+    if [ -f /etc/cron.hourly/wpsd-hourly ] ; then
+	rm -f /etc/cron.hourly/wpsd-hourly
+    fi
+fi
 
 # grab and cache latest WPSD hashes
 conn_check
