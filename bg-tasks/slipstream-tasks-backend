@@ -410,11 +410,11 @@ fi
 # remove exim for trixie - 8/2025 W0CHP
 if [ "${OS_VER}" -ge "13" ]; then
     if dpkg-query -l | grep -q "exim" ; then
-	apt-get --purge remove exim*
+	apt-get -y remove --purge exim*
     fi
 fi
 
-apt-get -y autoremove
+apt-get -y --purge autoremove
 
 # grab and cache latest WPSD hashes
 conn_check
@@ -1218,14 +1218,12 @@ if [ "${OS_VER}" -ge "12" ]; then
         if curl "${CURL_OPTIONS[@]}" -o /boot/firmware/cmdline.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/cmdline.txt; then
             update-initramfs -u
             apt-get -y remove --purge plymouth*
-            apt-get -y autoremove
         fi
     fi
 
     if ! grep -q "WPSD" /boot/firmware/config.txt ; then
 	declare -a CURL_OPTIONS=('-Ls' '-A' "bootup config updater (slipstream) $uaStr")
 	if curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt; then
-            apt-get -y autoremove
 	fi
     fi
     if ! dpkg -l | grep -q "^ii.*linux-image-rpi-v7"; then
@@ -1262,7 +1260,7 @@ fi
 # remove smb and deps..how it got snuck in is a mystery  - 5/25 
 if [ "${OS_VER}" -lt "13" ] ; then
     if dpkg -l | grep -q "^ii.*samba" ; then
-	sudo apt remove -y samba* && sudo apt autoremove -y
+	sudo apt remove -y samba*
     fi
 fi
 
