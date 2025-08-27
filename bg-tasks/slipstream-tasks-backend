@@ -1224,6 +1224,8 @@ if [ "${OS_VER}" -ge "12" ]; then
     if ! grep -q "WPSD" /boot/firmware/config.txt ; then
 	declare -a CURL_OPTIONS=('-Ls' '-A' "bootup config updater (slipstream) $uaStr")
 	if curl "${CURL_OPTIONS[@]}" -o /boot/firmware/config.txt https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Helpers/raw/branch/master/supporting-files/config.txt; then
+            update-initramfs -u
+	    apt-get -y autoremove
 	fi
     fi
     if ! dpkg -l | grep -q "^ii.*linux-image-rpi-v7"; then
