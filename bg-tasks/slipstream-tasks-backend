@@ -414,6 +414,8 @@ if [ "${OS_VER}" -ge "13" ]; then
     fi
 fi
 
+apt-get -y autoremove
+
 # grab and cache latest WPSD hashes
 conn_check
 
