@@ -328,41 +328,6 @@ if grep -q 'StartupDstId=31672' /etc/ysf2dmr ; then
     sed -i 's/StartupDstId=31672/StartupDstId=3170603/g' /etc/ysf2dmr
 fi
 
-#
-# placeholder dapnet api file if it doesn't exst
-# 1/17/2024 - W0CHP
-#
-dapnet_key="/etc/dapnetapi.key"
-if [ ! -e "$dapnet_key" ]; then
-    # If the file does not exist, create it with the specified contents
-    echo "[DAPNETAPI]" > "$dapnet_key"
-    echo "USER=" >> "$dapnet_key"
-    echo "PASS=" >> "$dapnet_key"
-    echo "TRXAREA=" >> "$dapnet_key"
-    echo "MY_RIC=" >> "$dapnet_key"
-fi
-#
-
-#
-# htpasswd bookworm
-# 6/2024 - W0CHP
-#
-if [ ! -f /usr/bin/htpasswd ] ; then
-    apt-get update
-    apt-get install -y apache2-utils
-fi
-#
-
-# upnp bookworm
-# 6/2024 - W0CHP
-#
-if [ ! -f /usr/bin/upnpc ] ; then
-    apt-get update
-    apt-get install -y miniupnpc
-    systemctl restart pistar-upnp.service
-fi
-#
-
 # dvmega cast-specific stuff
 if [ "$castResult" == "true" ]; then
     # ensure avrdude conf. is installed for radio/hotspot mgmt.
@@ -439,6 +404,13 @@ if [ "${OS_VER}" -ge "12" ]; then
     fi
     if [ -f /etc/cron.hourly/wpsd-hourly ] ; then
 	rm -f /etc/cron.hourly/wpsd-hourly
+    fi
+fi
+
+# remove exim for trixie - 8/2025 W0CHP
+if [ "${OS_VER}" -ge "13" ]; then
+    if dpkg-query -l | grep -q "exim" ; then
+	apt-get --purge remove exim*
     fi
 fi
 
@@ -1050,6 +1022,15 @@ if [ "${OS_VER}" -eq "12" ]; then
     if grep -q 'error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT' /etc/php/8.2/fpm/php.ini ; then
 	sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = 0/g' /etc/php/8.2/fpm/php.ini
 	systemctl restart php8.2-fpm.service
+    fi
+elif [ "${OS_VER}" -eq "13" ]; then
+    if grep -q 'log_errors = On' /etc/php/8.4/fpm/php.ini ; then
+	sed -i 's/log_errors = On/log_errors = Off/g' /etc/php/8.4/fpm/php.ini
+	systemctl restart php8.2-fpm.service
+    fi
+    if grep -q 'error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT' /etc/php/8.4/fpm/php.ini ; then
+	sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = 0/g' /etc/php/8.4/fpm/php.ini
+	systemctl restart php8.4-fpm.service
     fi
 elif [ "${OS_VER}" -eq "11" ]; then
     if grep -q 'log_errors = On' /etc/php/7.4/fpm/php.ini ; then
