@@ -485,9 +485,6 @@ for repo in "${CLEAN_REPOS[@]}"; do
         )
     fi
 done
-if [ "$castResult" == "true" ]; then
-    ln -s /opt/cast/usr-local-cast-www/ /var/www/dashboard/admin/cast
-fi
 
 # display fixes
 if grep -q 'Display=0' /etc/mmdvmhost ; then
