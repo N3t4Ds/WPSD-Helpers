@@ -432,6 +432,8 @@ if [[ -f "$armbian_env_file" ]]; then
 	if gpio -v 2>/dev/null | grep -q "_WPSD" ; then
 	    :
 	else
+	    export GIT_HTTP_CONNECT_TIMEOUT="10"
+	    export GIT_HTTP_USER_AGENT="WPSD SlipStream Task server-side sun81 GPIO binary installer)"
 	    cd /root
 	    rm -rf Wiring*
  	    git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
@@ -442,6 +444,8 @@ if [[ -f "$armbian_env_file" ]]; then
     else
 	cd /root
 	rm -rf Wiring*
+	export GIT_HTTP_CONNECT_TIMEOUT="10"
+	export GIT_HTTP_USER_AGENT="WPSD SlipStream Task server-side sun81 GPIO binary installer)"
 	git clone https://wpsd-swd.w0chp.net/WPSD-SWD/WiringNPi.git
 	cd WiringNPi
 	bash ./build
