@@ -480,7 +480,7 @@ for repo in "${CLEAN_REPOS[@]}"; do
             cd "$repo" || exit
             cleaned_files=$(git clean -d -f)
             if [ -n "$cleaned_files" ]; then
-		curl -Ls -A "WPSD Slipstream Server-Side PH00B $cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master > /dev/null
+		curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master > /dev/null
             fi
         )
     fi
