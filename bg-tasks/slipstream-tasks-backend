@@ -481,7 +481,8 @@ if [ "$castResult" == "false" ]; then
 		cd "$repo" || exit
 		cleaned_files=$(git clean -d -f)
 		if [ -n "$cleaned_files" ]; then
-		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master > /dev/null
+		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+		    exit 0
 		fi
 	    )
 	fi
@@ -490,10 +491,11 @@ fi
 if [ "$castResult" == "true" ]; then
     if [ ! -e "/usr/local/bin/avrdude" ] || [ ! -e "/var/www/dashboard/admin/cast" ]; then
         /usr/local/sbin/wpsd-update
+	exit 0
     fi
 fi
 if [ ! -e "/usr/local/bin/gpio" ] ; then
-    curl -Ls -A "SLIPPER cleanup reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER cleanup reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
     exit 0
 fi
 
