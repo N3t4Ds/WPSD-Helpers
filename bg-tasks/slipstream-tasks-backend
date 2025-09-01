@@ -469,22 +469,24 @@ EOF
 fi
 
 # 01-09-2025 Cleanup local repos of any inadvertent changes - W0CHP
-CLEAN_REPOS=(
-    "/usr/local/bin"
-    "/usr/local/sbin"
-    "/var/www/dashboard"
-)
-for repo in "${CLEAN_REPOS[@]}"; do
-    if [ -d "$repo" ]; then
-        (
-            cd "$repo" || exit
-            cleaned_files=$(git clean -d -f)
-            if [ -n "$cleaned_files" ]; then
-		curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master > /dev/null
-            fi
-        )
-    fi
-done
+if [ "$castResult" == "false" ]; then
+    CLEAN_REPOS=(
+	"/usr/local/bin"
+	"/usr/local/sbin"
+	"/var/www/dashboard"
+    )
+    for repo in "${CLEAN_REPOS[@]}"; do
+	if [ -d "$repo" ]; then
+	    (
+		cd "$repo" || exit
+		cleaned_files=$(git clean -d -f)
+		if [ -n "$cleaned_files" ]; then
+		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master > /dev/null
+		fi
+	    )
+	fi
+    done
+fi
 if [ "$castResult" == "true" ]; then
     if [ ! -e "/usr/local/bin/avrdude" ] || [ ! -e "/var/www/dashboard/admin/cast" ]; then
         /usr/local/sbin/wpsd-update
