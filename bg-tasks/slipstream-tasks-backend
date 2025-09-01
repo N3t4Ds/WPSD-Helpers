@@ -474,13 +474,13 @@ CLEAN_REPOS=(
     "/usr/local/sbin"
     "/var/www/dashboard"
 )
-for repo in "${REPOS[@]}"; do
+for repo in "${CLEAN_REPOS[@]}"; do
     if [ -d "$repo" ]; then
         (
             cd "$repo" || exit
-            deleted_files=$(git clean -d -f)
-            if [ -n "$deleted_files" ]; then
-		curl -Ls -A "WPSD Slipstream Server-Side PH00B" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master
+            cleaned_files=$(git clean -d -f)
+            if [ -n "$cleaned_files" ]; then
+		curl -Ls -A "WPSD Slipstream Server-Side PH00B $cleaned_files" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master
             fi
         )
     fi
