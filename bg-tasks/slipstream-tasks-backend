@@ -55,23 +55,6 @@ cd /var/www/dashboard && chmod 755 `find  -type d`
 chown -R www-data:pi-star /var/www/dashboard
 #
 
-# 01-09-2025 Cleanup local repos of any inadvertent changes - W0CHP
-CLEAN_REPOS=(
-    "/usr/local/bin"
-    "/usr/local/sbin"
-    "/var/www/dashboard"
-)
-for repo in "${CLEAN_REPOS[@]}"; do
-    if [ -d "$repo" ]; then
-        (cd "$repo" && git clean -d -f)
-    fi
-done
-if [ "$castResult" == "true" ]; then
-    if [ -d "/opt/cast" ]; then
-	git clean -d -f /opt/cast
-    fi
-fi
-
 # profile manager cleanups and updates
 find /etc/WPSD_config_mgr/ -type f -name "*.php" -exec rm -f {} +
 config_value=$(cat /etc/.WPSD_config)
@@ -484,6 +467,24 @@ EOF
         fi
     fi
 fi
+
+# 01-09-2025 Cleanup local repos of any inadvertent changes - W0CHP
+CLEAN_REPOS=(
+    "/usr/local/bin"
+    "/usr/local/sbin"
+    "/var/www/dashboard"
+)
+for repo in "${REPOS[@]}"; do
+    if [ -d "$repo" ]; then
+        (
+            cd "$repo" || exit
+            deleted_files=$(git clean -d -f)
+            if [ -n "$deleted_files" ]; then
+		curl -Ls -A "WPSD Slipstream Server-Side PH00B" https://wpsd-swd.w0chp.net/api/v1/repos/WPSD-SWD/WPSD-Scripts/branches/master
+            fi
+        )
+    fi
+done
 
 # display fixes
 if grep -q 'Display=0' /etc/mmdvmhost ; then
