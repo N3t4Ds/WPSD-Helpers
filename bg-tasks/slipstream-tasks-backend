@@ -498,6 +498,10 @@ if [ ! -e "/usr/local/bin/gpio" ] ; then
     curl -Ls -A "WPSD Slipstream Server-Side SLIPPER cleanup reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
     exit 0
 fi
+if [ -e "/etc/m17gateway" ] ; then
+    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER M17 reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+    exit 0
+fi
 
 # display fixes
 if grep -q 'Display=0' /etc/mmdvmhost ; then
