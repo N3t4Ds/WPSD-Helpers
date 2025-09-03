@@ -414,6 +414,14 @@ if [ "${OS_VER}" -ge "13" ]; then
     fi
 fi
 
+# buster backports is no more for sun8i - 9/3/2025 W0CHP
+if [ -f "$armbian_env_file" ] ; then
+    if [ -f "/etc/apt/sources.list.d/buster-backports.list" ] ; then
+	rm -f /etc/apt/sources.list.d/buster-backports.list
+	apt-update
+    fi
+fi
+
 apt-get -y --purge autoremove
 
 # grab and cache latest WPSD hashes
