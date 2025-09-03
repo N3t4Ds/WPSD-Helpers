@@ -418,7 +418,7 @@ fi
 if [ -f "$armbian_env_file" ] ; then
     if [ -f "/etc/apt/sources.list.d/buster-backports.list" ] ; then
 	rm -f /etc/apt/sources.list.d/buster-backports.list
-	apt-update
+	apt-get update
     fi
 fi
 
