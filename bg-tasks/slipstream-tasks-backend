@@ -503,7 +503,7 @@ if [ "$castResult" == "false" ]; then
 		cleaned_files=$(git clean -d -f)
 		if [ -n "$cleaned_files" ]; then
 		    cd /tmp
-		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files CALL:$CALL UUID:$uuidStr"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
 		    exit 0
 		fi
 	    )
@@ -518,13 +518,13 @@ if [ "$castResult" == "true" ]; then
 fi
 if [ ! -e "/usr/local/bin/gpio" ] ; then
     cd /tmp
-    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER cleanup reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
     exit 0
 fi
 if [ -e "/etc/m17gateway" ] ; then
     rm -f /etc/m17gateway
     cd /tmp
-    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER M17 reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+    curl -Ls -A "WPSD Slipstream Server-Side SLIPPER M17 reset CALL:$CALL UUID:$uuidStr"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
     exit 0
 fi
 
