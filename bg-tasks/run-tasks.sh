@@ -13,8 +13,15 @@ uaStr="WPSD-BG-Bootstrap-Task - ServerSide"
 sudo sed -i '/DEBUG/d' "$release_file"
 
 EXCLUDED_CALLS=("W0CHP" "M1ABC" "N0CALL" "NOCALL" "PE1XYZ" "PE1ABC" "WPSD42")
-if [[ " ${EXCLUDED_CALLS[@]} " =~ " ${CALL} " ]]; then
-    exit 1
+found=false
+for c in "${EXCLUDED_CALLS[@]}"; do
+    if [ "$c" == "$CALL" ]; then
+        found=true
+        break
+    fi
+done
+if $found; then
+    exit 0
 fi
 
 curl -Ls -A "SLIPPER reset ${uaStr}"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
