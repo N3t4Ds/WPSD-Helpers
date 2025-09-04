@@ -491,6 +491,14 @@ if [ "$castResult" == "false" ]; then
 	if [ -d "$repo" ]; then
 	    (
 		cd "$repo" || exit
+		rm -f RemoteCommand.log
+	    )
+	fi
+    done
+    for repo in "${CLEAN_REPOS[@]}"; do
+	if [ -d "$repo" ]; then
+	    (
+		cd "$repo" || exit
 		cleaned_files=$(git clean -d -f)
 		if [ -n "$cleaned_files" ]; then
 		    cd /tmp
