@@ -491,7 +491,8 @@ if [ "$castResult" == "false" ]; then
 	if [ -d "$repo" ]; then
 	    (
 		cd "$repo" || exit
-		rm -f RemoteCommand.log
+		find "$repo" -type f -name "RemoteCommand.log" -delete
+
 	    )
 	fi
     done
