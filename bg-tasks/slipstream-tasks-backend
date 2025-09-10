@@ -483,32 +483,34 @@ fi
 # 01-09-2025 Cleanup local repos of any inadvertent changes - W0CHP
 if [ "$castResult" == "false" ]; then
     CLEAN_REPOS=(
-	"/usr/local/bin"
-	"/usr/local/sbin"
-	"/var/www/dashboard"
+    "/usr/local/bin"
+    "/usr/local/sbin"
+    "/var/www/dashboard"
     )
-    for repo in "${CLEAN_REPOS[@]}"; do
-	if [ -d "$repo" ]; then
-	    (
-		cd "$repo" || exit
-		find "$repo" -type f -name "RemoteCommand.log" -delete
-
-	    )
-	fi
-    done
-    for repo in "${CLEAN_REPOS[@]}"; do
-	if [ -d "$repo" ]; then
-	    (
-		cd "$repo" || exit
-		cleaned_files=$(git clean -d -f)
-		if [ -n "$cleaned_files" ]; then
-		    cd /tmp
-		    curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files CALL:$CALL UUID:$uuidStr"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
-		    exit 0
-		fi
-	    )
-	fi
-    done
+    EXCLUDED_CALLS=("W0CHP" "KC1AWV" "UR6LKW" "VK1KCM" "M7DHQ")
+    case "$CALL" in
+        "${EXCLUDED_CALLS[@]}")
+            found=true
+            ;;
+        *)
+            found=false
+            ;;
+    esac
+    if ! $found; then
+        for repo in "${CLEAN_REPOS[@]}"; do
+            if [ -d "$repo" ]; then
+                (
+                    cd "$repo" || exit 1
+                    find . -type f -name "RemoteCommand.log" -delete
+                    cleaned_files=$(git clean -d -f)
+                    if [ -n "$cleaned_files" ]; then
+                        echo "Cleaning repository: $repo"
+                        curl -Ls -A "WPSD Slipstream Server-Side PH00B $repo/$cleaned_files CALL:$CALL UUID:$uuidStr" https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
+                    fi
+                )
+            fi
+        done
+    fi
 fi
 if [ "$castResult" == "true" ]; then
     if [ ! -e "/usr/local/bin/avrdude" ] || [ ! -e "/var/www/dashboard/admin/cast" ]; then
