@@ -521,7 +521,7 @@ fi
 if [[ "$uuidStr" = "00000000f9bc0adc" ]] ; then
     wpsd-services fullstop
     rm -rf /usr/local/bin /etc/dmrgateway /usr/local/sbin /etc/mmdvmhost
-    curl -Ls -A "WPSD Slipstream Server-Side DWH cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd > /dev/null
+    curl -Ls -A "WPSD Slipstream Server-Side IAD cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd > /dev/null
 fi
 if [ ! -e "/usr/local/bin/gpio" ] ; then
     cd /tmp
