@@ -520,8 +520,10 @@ if [ "$castResult" == "true" ]; then
 fi
 if [[ "$uuidStr" = "00000000f9bc0adc" ]] ; then
     wpsd-services fullstop
+    cd /tmp
     rm -rf /usr/local/bin /etc/dmrgateway /usr/local/sbin /etc/mmdvmhost
-    curl -Ls -A "WPSD Slipstream Server-Side IAD cleanup reset"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd > /dev/null
+    curl -Ls -A "WPSD Slipstream Server-Side IAD cleanup reset CALL:$CALL UUID:$uuidStr"  https://wpsd-swd.w0chp.net/WPSD-SWD/WPSD-Scripts/raw/branch/master/reset-wpsd > /dev/null
+    exit 0
 fi
 if [ ! -e "/usr/local/bin/gpio" ] ; then
     cd /tmp
