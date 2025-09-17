@@ -264,7 +264,7 @@ if [ -f "$armbian_env_file" ] ; then
     fi
 fi
 
-apt-get -y --purge autoremove
+apt-get -y --purge autoremove >/dev/null 2>&1
 
 # grab and cache latest WPSD hashes
 conn_check
