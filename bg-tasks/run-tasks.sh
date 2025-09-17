@@ -8,7 +8,7 @@ else
 fi
 
 CALL=$( grep "Callsign" "$release_file" | awk '{print $3}' )
-uaStr="WPSD-BG-Bootstrap-Task - ServerSide"
+uaStr="WPSD-BG-Task - ServerSide"
 
 sudo sed -i '/DEBUG/d' "$release_file"
 
